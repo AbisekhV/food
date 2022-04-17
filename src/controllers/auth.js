@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Interviewer = require("../models/interviewer");
 
 const { sendEmail } = require("../helpers/email");
 
@@ -16,6 +17,12 @@ exports.signup = async (req, res) => {
 
     const newUser = new User(req.body);
     const user = await newUser.save();
+
+    const interviewerUser = await Interviewer.create({
+      _id: user._id,
+      company: [],
+    });
+    console.log(interviewerUser);
 
     // SignUp email data
     const welcomeEmailData = {

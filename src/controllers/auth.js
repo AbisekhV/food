@@ -67,6 +67,37 @@ exports.signin = async (req, res) => {
         email: user.email,
       },
     };
+    console.log(payload);
+
+    return res.json(payload);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: 500,
+      error: error,
+    });
+  }
+};
+
+exports.getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.json({
+        status: 500,
+        error: "User does not exist.",
+      });
+    }
+
+    delete user.password;
+
+    const payload = {
+      status: 200,
+      data: user,
+    };
+    console.log(payload);
 
     return res.json(payload);
   } catch (error) {

@@ -21,8 +21,9 @@ const routes = require("./src/routes/index.route");
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(routes);
+
 app.use(cors());
+app.use(routes);
 
 app.listen(config.port, () =>
   console.log(`listening on port .... ${config.port}!`)

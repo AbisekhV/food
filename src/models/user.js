@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
+      required: true,
       trim: true,
     },
     skills: [
@@ -20,13 +21,11 @@ const userSchema = new mongoose.Schema(
     city: {
       type: String,
       trim: true,
-      required: true,
       maxlength: 32,
     },
     phone: {
       type: Number,
       max: 9999999999,
-      required: true,
     },
     password: {
       type: String,

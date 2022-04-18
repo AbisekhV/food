@@ -66,3 +66,68 @@ exports.getJobById = async (req, res) => {
     });
   }
 };
+
+// Apply job
+exports.applyJob = async (req, res) => {
+  try {
+    const { job, applicant } = req.body;
+
+    const jobDetails = await Job.findByIdAndUpdate(
+      job,
+      { $push: { applicants: applicant } },
+      { new: true, useFindAndModify: false }
+    );
+    console.log(jobDetails);
+
+    const applicantDetails = await User.findByIdAndUpdate(
+      applicant,
+      { $push: { appliedJobs: job } },
+      { new: true, useFindAndModify: false }
+    );
+    console.log(applicantDetails);
+
+    res.json({
+      status: 200,
+      data: "Applied Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: 500,
+      error: error,
+    });
+  }
+};
+
+// Get jobs by city
+exports.getJobsByCity = async (req, res) => {
+  try {
+    const { city } = req.params;
+    const jobs = await Job.find({ city: city });
+
+    if (!jobs) {
+      return res.json({
+        status: 500,
+        error: "jobs not found",
+      });
+    }
+
+    for (let i = 0; i < jobs.length; i++) {
+      jobs[i].company = await Company.findById(jobs[i].company);
+    }
+
+    const payload = {
+      status: 200,
+      data: jobs,
+    };
+    console.log(payload);
+
+    return res.json(payload);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: 500,
+      error: error,
+    });
+  }
+};

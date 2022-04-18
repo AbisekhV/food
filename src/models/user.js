@@ -12,24 +12,14 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    skills: [
-      {
-        type: String,
-        maxlength: 32,
-      },
-    ],
-    city: {
-      type: String,
-      trim: true,
-      maxlength: 32,
-    },
-    phone: {
-      type: Number,
-      max: 9999999999,
-    },
     password: {
       type: String,
       required: true,
+    },
+    role: {
+      type: String,
+      enum: ["applicant", "interviewer"],
+      default: "applicant",
     },
     isVerified: {
       type: Boolean,

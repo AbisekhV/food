@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Interviewer = require("../models/interviewer");
+const Applicant = require("../models/applicant");
 
 const { sendEmail } = require("../helpers/email");
 
@@ -15,14 +16,28 @@ exports.signup = async (req, res) => {
       });
     }
 
-    const newUser = new User(req.body);
-    const user = await newUser.save();
+    let user;
+    if (req.body.role === "interviewer") {
+      const newUser = new User(req.body);
+      user = await newUser.save();
 
-    const interviewerUser = await Interviewer.create({
-      _id: user._id,
-      company: [],
-    });
-    console.log(interviewerUser);
+      const interviewerUser = await Interviewer.create({
+        _id: user._id,
+        company: [],
+      });
+      console.log(interviewerUser);
+    } else if (req.body.role === "applicant") {
+      const newUser = new User(req.body);
+      user = await newUser.save();
+
+      const applicantUser = await Applicant.create({
+        _id: user._id,
+        appliedJobs: [],
+        profile: user._id,
+      });
+      console.log(applicantUser);
+    }
+    delete user.password;
 
     // SignUp email data
     const welcomeEmailData = {

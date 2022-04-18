@@ -1,5 +1,5 @@
 const Job = require("../models/job");
-const Applicant = require("../models/Applicant");
+const Applicant = require("../models/applicant");
 
 exports.getApplicantById = async (req, res) => {
   try {

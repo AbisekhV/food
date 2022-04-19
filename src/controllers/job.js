@@ -2,6 +2,7 @@ const Job = require("../models/job");
 const Company = require("../models/company");
 const User = require("../models/user");
 const Applicant = require("../models/applicant");
+const Profile = require("../models/profile");
 
 // Create Job
 exports.createJob = async (req, res) => {
@@ -133,3 +134,44 @@ exports.getJobsByCity = async (req, res) => {
     });
   }
 };
+
+
+// Get job applicants by job id
+exports.getJobApplicants = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const job = await Job.findById(id).lean();
+
+    if (!job) {
+      return res.json({
+        status: 500,
+        error: "job not found",
+      });
+    }
+
+    const applicants = job.applicants;
+    job.applicants = [];
+
+    for(let idx = applicants.length-1; idx >= 0; idx--) {
+      const applicant = await Profile.findById(applicants[idx]);
+      console.log(applicant);
+      job.applicants.push(applicant);
+    }
+
+    console.log(job);
+
+    const payload = {
+      status: 200,
+      data: job,
+    };
+    console.log(payload);
+
+    return res.json(payload);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: 500,
+      error: error,
+    });
+  }
+}

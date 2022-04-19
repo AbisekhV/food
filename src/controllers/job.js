@@ -1,6 +1,7 @@
 const Job = require("../models/job");
 const Company = require("../models/company");
 const User = require("../models/user");
+const Applicant = require("../models/applicant");
 
 // Create Job
 exports.createJob = async (req, res) => {
@@ -79,12 +80,13 @@ exports.applyJob = async (req, res) => {
     );
     console.log(jobDetails);
 
-    const applicantDetails = await User.findByIdAndUpdate(
+    const applicantDetails = await Applicant.findByIdAndUpdate(
       applicant,
       { $push: { appliedJobs: job } },
       { new: true, useFindAndModify: false }
     );
     console.log(applicantDetails);
+
 
     res.json({
       status: 200,

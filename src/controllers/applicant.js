@@ -20,10 +20,11 @@ exports.getApplicantById = async (req, res) => {
       const job = await Job.findById(jobs[i]);
       applicant.appliedJobs.push(job);
     }
+    
 
     const payload = {
       status: 200,
-      data: interviewer,
+      data: applicant,
     };
     console.log(payload);
 

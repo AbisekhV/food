@@ -16,14 +16,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    role: {
-      type: String,
-      enum: ["applicant", "interviewer"],
-      default: "applicant",
-    },
-    isVerified: {
-      type: Boolean,
-      default: false,
+
+    walletAmount: {
+      type: Number,
+      required: true,
+      default: 0,
     },
   },
   { timestamps: true }

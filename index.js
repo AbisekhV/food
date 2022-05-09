@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 try {
   mongoose.connect(
-    "mongodb+srv://root:root@cluster0.ddj2u.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "mongodb+srv://root:root@cluster0.3uzsr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
     {},
     () => console.log("connected")
   );

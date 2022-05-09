@@ -1,8 +1,4 @@
 const User = require("../models/user");
-const Interviewer = require("../models/interviewer");
-const Applicant = require("../models/applicant");
-
-const { sendEmail } = require("../helpers/email");
 
 exports.signup = async (req, res) => {
   try {
@@ -16,38 +12,9 @@ exports.signup = async (req, res) => {
       });
     }
 
-    let user;
-    if (req.body.role === "interviewer") {
-      const newUser = new User(req.body);
-      user = await newUser.save();
-
-      const interviewerUser = await Interviewer.create({
-        _id: user._id,
-        company: [],
-      });
-      console.log(interviewerUser);
-    } else if (req.body.role === "applicant") {
-      const newUser = new User(req.body);
-      user = await newUser.save();
-
-      const applicantUser = await Applicant.create({
-        _id: user._id,
-        appliedJobs: [],
-        profile: user._id,
-      });
-      console.log(applicantUser);
-    }
+    const newUser = new User(req.body);
+    const user = await newUser.save();
     delete user.password;
-
-    // SignUp email data
-    const welcomeEmailData = {
-      from: "noreply@jobfinder.com",
-      to: user.email,
-      subject: `Welcome to Job Finder! ${user.name}`,
-      text: `Welcome to Job Finder! ${user.name}`,
-      html: `<p>Click here to go the feed</p> <p>https://localhost:3000</p>`,
-    };
-    sendEmail(welcomeEmailData);
 
     res.json({
       status: 200,
@@ -70,7 +37,7 @@ exports.signin = async (req, res) => {
     if (!user) {
       return res.json({
         status: 500,
-        error: "User with that email does not exist.",
+        error: "Incorrect email or password",
       });
     }
 
@@ -87,6 +54,7 @@ exports.signin = async (req, res) => {
         _id: user.id,
         name: user.name,
         email: user.email,
+        walletAmount: user.walletAmount,
       },
     };
     console.log(payload);
@@ -112,7 +80,6 @@ exports.getUserById = async (req, res) => {
         error: "User does not exist.",
       });
     }
-
     delete user.password;
 
     const payload = {

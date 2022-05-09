@@ -11,7 +11,6 @@ import config from "../config";
 
 const Home = () => {
   const [loginRedirect, setLoginRedirect] = useState(false);
-  const [interviewer, setInterviewer] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -30,10 +29,6 @@ const Home = () => {
       );
       setUser(user);
       console.log(user);
-
-      if (user.data.data.role === "interviewer") {
-        setInterviewer(true);
-      }
     }
     setLoading(false);
   };
@@ -49,11 +44,7 @@ const Home = () => {
             <Navigate to="/login" />
           ) : (
             <>
-              {interviewer ? (
-                <Interviewer user={user} />
-              ) : (
-                <Applicant user={user} />
-              )}
+              <Interviewer user={user} />
             </>
           )}
         </>

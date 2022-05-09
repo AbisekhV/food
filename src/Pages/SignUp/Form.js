@@ -39,15 +39,6 @@ const SignUpForm = (props, { ...others }) => {
   const classes = useStyles();
   const [redirect, setRedirect] = useState(false);
 
-  // Role
-  const [openRole, setOpenRole] = React.useState(false);
-  const handleRoleClose = () => {
-    setOpenRole(false);
-  };
-  const handleRoleOpen = () => {
-    setOpenRole(true);
-  };
-
   return (
     <Formik
       initialValues={{
@@ -57,7 +48,6 @@ const SignUpForm = (props, { ...others }) => {
       }}
       validationSchema={Yup.object().shape({
         name: Yup.string().max(255).required("Name is required"),
-        role: Yup.string().max(255).required("Role is required"),
         password: Yup.string().max(255).required("Password is required"),
         email: Yup.string()
           .email("Invalid email address")
@@ -79,10 +69,13 @@ const SignUpForm = (props, { ...others }) => {
             if (response.status === 200) {
               localStorage.setItem("token", response.data.data._id);
               setRedirect(true);
+              setStatus({ success: true });
+            } else {
+              setStatus({ success: false });
+              setErrors({ submit: response.data.error });
             }
             // console.log(response);
             console.log(values);
-            setStatus({ success: true });
             setSubmitting(false);
           } catch (error) {
             console.log("error signing up", error);
@@ -126,33 +119,6 @@ const SignUpForm = (props, { ...others }) => {
           </FormControl>
           {touched.name && errors.name && (
             <FormHelperText error>{errors.name}</FormHelperText>
-          )}
-          <Box mb={2} />
-
-          <FormControl
-            fullWidth
-            error={Boolean(touched.role && errors.role)}
-            className={classes.formControl}
-          >
-            <InputLabel>Role</InputLabel>
-            <Select
-              value={values.role}
-              onChange={handleChange}
-              onClose={handleRoleClose}
-              open={openRole}
-              onOpen={handleRoleOpen}
-              name="role"
-              label="role"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value="interviewer">Interviewer</MenuItem>
-              <MenuItem value="applicant">Applicant</MenuItem>
-            </Select>
-          </FormControl>
-          {touched.role && errors.role && (
-            <FormHelperText error>{errors.role}</FormHelperText>
           )}
           <Box mb={2} />
 

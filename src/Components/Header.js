@@ -17,7 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Menu2, User } from "tabler-icons-react";
 
 // Menu Items
-import InterviewerMenu from "../menus/Interviewer";
+// import InterviewserMenu from "../menus/Interviewer";
 
 const ResponsiveAppBar = () => {
   const [loginRedirect, setLoginRedirect] = React.useState(false);
@@ -44,15 +44,14 @@ const ResponsiveAppBar = () => {
       {loginRedirect && <Navigate to="/login" />}
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          
-          <Link to="/" style={{textDecoration: "none", color: "white"}}>
+          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
             <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
             >
-                Job Finder
+              Food
             </Typography>
           </Link>
 
@@ -85,23 +84,20 @@ const ResponsiveAppBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              <InterviewerMenu />
             </Menu>
           </Box>
-          
-            <Link to="/" style={{textDecoration: "none", color: "white"}}>
-              <Typography
+
+          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+            <Typography
               variant="h6"
               noWrap
               component="div"
               sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-              >
-                Job Finder
-              </Typography>
-            </Link>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <InterviewerMenu />
-          </Box>
+            >
+              Food
+            </Typography>
+          </Link>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
